@@ -556,6 +556,8 @@ device_unmount (Device *dev)
 		return 0;
 
 	(void)spawn_callback("pre_unmount", dev);
+	//We don't know when the callback is finished. Add a ugly sleep in lack of better handling
+	sleep(1); //1 second should be enough to close the file handles.
 
 	ctx = mnt_new_context();
 	mnt_context_set_target(ctx, dev->node);
